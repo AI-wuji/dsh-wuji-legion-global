@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>无极军团 · dsh-wuji-legion — 会自己进化的智能体军团</title>
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #0f1629;
+    --card: #151d33;
+    --card-hover: #1a2440;
+    --border: #24304f;
+    --gold: #f0b429;
+    --gold2: #f7c948;
+    --blue: #4d8dff;
+    --cyan: #38cbd0;
+    --green: #35c46a;
+    --red: #e5484d;
+    --text: #e8ecf5;
+    --text-dim: #98a3bd;
+    --text-faint: #66718c;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -2;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 0%, rgba(77,141,255,0.12), transparent),
+      radial-gradient(ellipse 50% 35% at 80% 10%, rgba(240,180,41,0.10), transparent),
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(56,203,208,0.08), transparent),
+      var(--bg);
+  }
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: -1;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 0%, transparent 75%);
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 60px 24px 80px; }
+
+  /* ===== 头部 ===== */
+  header { text-align: center; margin-bottom: 54px; }
+  .emblem {
+    width: 78px; height: 78px; margin: 0 auto 22px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--gold), #c8871a);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px;
+    box-shadow: 0 0 40px rgba(240,180,41,0.45), 0 8px 24px rgba(0,0,0,0.5);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 30px rgba(240,180,41,0.35), 0 8px 24px rgba(0,0,0,0.5); }
+    50% { box-shadow: 0 0 55px rgba(240,180,41,0.6), 0 8px 24px rgba(0,0,0,0.5); }
+  }
+  h1 {
+    font-size: clamp(30px, 5vw, 46px); font-weight: 800; letter-spacing: 2px;
+    background: linear-gradient(135deg, #fff 0%, var(--gold2) 60%, var(--gold) 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 14px;
+  }
+  .tagline { font-size: clamp(15px, 2.4vw, 20px); font-weight: 500; color: var(--text); max-width: 640px; margin: 0 auto 10px; }
+  .tagline b { color: var(--gold2); }
+  .subtag { color: var(--text-dim); font-size: 14px; }
+  .badges { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .badge { font-size: 12px; padding: 6px 14px; border-radius: 20px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-dim); letter-spacing: 0.5px; }
+  .badge.gold { border-color: rgba(240,180,41,0.4); color: var(--gold2); }
+
+  section { margin-bottom: 60px; }
+  .sec-title { text-align: center; font-size: 26px; font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; }
+  .sec-title .icon { margin-right: 6px; }
+  .sec-sub { text-align: center; color: var(--text-dim); font-size: 14px; margin-bottom: 34px; }
+
+  /* ===== 一句话 ===== */
+  .banner { background: linear-gradient(135deg, rgba(77,141,255,0.10), rgba(240,180,41,0.08)); border: 1px solid var(--border); border-radius: 18px; padding: 34px 28px; text-align: center; }
+  .banner .quote { font-size: clamp(17px, 3vw, 23px); font-weight: 600; color: var(--text); margin-bottom: 20px; line-height: 1.6; }
+  .banner .quote .hl { color: var(--gold2); }
+  .vs { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+  .vs-item { font-size: 13px; padding: 8px 16px; border-radius: 10px; background: var(--card); border: 1px solid var(--border); color: var(--text-dim); }
+  .vs-item b { color: var(--cyan); }
+
+  /* ===== 架构图 ===== */
+  .arch { display: flex; flex-direction: column; gap: 0; }
+  .arch-level { text-align: center; font-size: 13px; color: var(--text-faint); letter-spacing: 1px; margin: 6px 0; }
+  .arch-cards { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+  .node {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px 22px; min-width: 150px; text-align: center;
+    transition: all 0.25s ease; position: relative; cursor: pointer;
+  }
+  .node:hover { background: var(--card-hover); border-color: rgba(240,180,41,0.4); transform: translateY(-3px); }
+  .node .n-name { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .node .n-role { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+  .node .n-hint { font-size: 10px; color: var(--text-faint); margin-top: 8px; opacity: 0.8; }
+  .node.cmd { border-color: rgba(240,180,41,0.5); background: linear-gradient(160deg, rgba(240,180,41,0.12), var(--card)); }
+  .node.cmd .n-name { color: var(--gold2); }
+  .node.exec .n-name { color: var(--green); }
+  .node.div .n-name { color: var(--blue); }
+
+  /* 流动箭头 */
+  .flow { height: 40px; display: flex; align-items: center; justify-content: center; position: relative; }
+  .flow-line { width: 2px; height: 100%; background: linear-gradient(to bottom, transparent, rgba(77,141,255,0.5), transparent); position: relative; overflow: visible; }
+  .flow-dot {
+    position: absolute; left: -2px; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold2);
+    box-shadow: 0 0 10px rgba(240,180,41,0.9), 0 0 20px rgba(240,180,41,0.5);
+    animation: flowDown 1.6s ease-in-out infinite;
+  }
+  @keyframes flowDown {
+    0% { top: -4px; opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { top: calc(100% - 2px); opacity: 0; }
+  }
+
+  .arch-note { text-align: center; color: var(--text-dim); font-size: 13px; margin-top: 18px; }
+
+  /* ===== 卖点 ===== */
+  .sell { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+  .sell-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 26px 24px; transition: all 0.25s ease; }
+  .sell-card:hover { background: var(--card-hover); transform: translateY(-4px); border-color: rgba(77,141,255,0.4); }
+  .sell-card .num { font-size: 14px; font-weight: 800; color: var(--gold2); display: inline-block; margin-bottom: 10px; }
+  .sell-card h3 { font-size: 19px; font-weight: 700; margin-bottom: 12px; }
+  .sell-card p { font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+  .sell-card .src { font-size: 12px; color: var(--text-faint); margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border); }
+  .sell-card .src b { color: var(--cyan); }
+
+  /* ===== 背书 ===== */
+  .evidence { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  .ev-row { display: grid; grid-template-columns: 1fr 1.2fr; border-bottom: 1px solid var(--border); }
+  .ev-row:last-child { border-bottom: none; }
+  .ev-row > div { padding: 15px 20px; font-size: 13.5px; }
+  .ev-left { background: rgba(255,255,255,0.02); color: var(--text); font-weight: 600; }
+  .ev-right { color: var(--text-dim); }
+  .ev-right b { color: var(--cyan); font-weight: 600; }
+  @media (max-width: 640px) { .ev-row { grid-template-columns: 1fr; } .ev-right { border-top: 1px solid var(--border); } }
+
+  /* ===== 通病 ===== */
+  .cure { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+  .cure-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; border-left: 3px solid var(--green); }
+  .cure-card h4 { font-size: 16px; margin-bottom: 10px; color: var(--green); }
+  .cure-card p { font-size: 13.5px; color: var(--text-dim); }
+
+  /* ===== Modal ===== */
+  .modal-mask {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(4,6,12,0.7); backdrop-filter: blur(6px);
+    display: none; align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal-mask.show { display: flex; }
+  .modal {
+    background: var(--card); border: 1px solid rgba(240,180,41,0.35);
+    border-radius: 18px; max-width: 520px; width: 100%;
+    padding: 30px 28px; position: relative;
+    animation: modalIn 0.25s ease;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(240,180,41,0.15);
+  }
+  @keyframes modalIn { from { opacity: 0; transform: translateY(16px) scale(0.97); } to { opacity: 1; transform: none; } }
+  .modal-close {
+    position: absolute; top: 14px; right: 18px; font-size: 22px;
+    color: var(--text-faint); cursor: pointer; background: none; border: none; line-height: 1;
+  }
+  .modal-close:hover { color: var(--text); }
+  .modal h2 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+  .modal .m-tier { font-size: 13px; color: var(--gold2); margin-bottom: 18px; letter-spacing: 1px; }
+  .modal .m-row { display: flex; margin-bottom: 14px; font-size: 14px; }
+  .modal .m-label { flex: 0 0 72px; color: var(--text-faint); font-weight: 600; }
+  .modal .m-val { color: var(--text-dim); flex: 1; }
+  .modal .m-val b { color: var(--cyan); }
+  .modal .m-divider { border-top: 1px dashed var(--border); margin: 16px 0 14px; }
+
+  footer { text-align: center; margin-top: 60px; }
+  .footer-line { color: var(--text-dim); font-size: 14px; margin-bottom: 18px; }
+  .footer-motto { font-size: 15px; letter-spacing: 3px; color: var(--gold2); opacity: 0.8; font-weight: 600; }
+  .star { display: inline-block; margin-top: 20px; padding: 12px 28px; background: linear-gradient(135deg, var(--gold), #c8871a); color: #1a1204; font-weight: 700; font-size: 15px; border-radius: 30px; text-decoration: none; letter-spacing: 1px; box-shadow: 0 6px 20px rgba(240,180,41,0.35); transition: transform 0.2s; }
+  .star:hover { transform: scale(1.05); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="emblem">⚔️</div>
+    <h1>无极军团 · dsh-wuji-legion</h1>
+    <p class="tagline">我们把一支 <b>「会自己进化的智能体军团」</b> 做成了系统 —— 跑在 DeepSeek Harness 上。</p>
+    <p class="subtag">不是让你拼积木的多智能体框架，而是一支已经建制完成、纪律森严、越用越强的 AI 军团。</p>
+    <div class="badges">
+      <span class="badge gold">Platform · DeepSeek Harness</span>
+      <span class="badge">Multi-Agent Legion</span>
+      <span class="badge">MoE (Mixture-of-Roles)</span>
+      <span class="badge gold">Self-Evolution Built-in</span>
+      <span class="badge">MIT License</span>
+    </div>
+  </header>
+
+  <!-- 一句话 -->
+  <section>
+    <div class="banner">
+      <p class="quote">让不懂 <span class="hl">Skill / 插件 / MCP</span> 是什么的小白，用人话提出要求，<br>无极军团自动调齐整支智能体军团把事办成 —— <span class="hl">而且越用越强</span>。</p>
+      <div class="vs">
+        <span class="vs-item">比 CrewAI 多一层 <b>制度性建制</b></span>
+        <span class="vs-item">比 AutoGen 多一个 <b>能力进化引擎</b></span>
+        <span class="vs-item">比 LangGraph 多一套 <b>权力边界</b></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 架构图 -->
+  <section>
+    <div class="sec-title"><span class="icon">🏛️</span>三级建制</div>
+    <div class="sec-sub">每个角色都是一个真正的智能体（MoE 形态）· <b style="color:var(--gold2)">点击角色卡片查看职责详情</b></div>
+    <div class="arch">
+      <div class="arch-level">── 军团级 · 唯一主链 ──</div>
+      <div class="arch-cards">
+        <div class="node cmd" data-node="aji"><div class="n-name">阿极</div><div class="n-role">用户接口<br>用人话收集需求、澄清、汇报</div><div class="n-hint">点击查看详情 ↗</div></div>
+        <div class="node cmd" data-node="staff"><div class="n-name">参谋部</div><div class="n-role">全局调度中枢<br>唯一裁决者 · 最高智商</div><div class="n-hint">点击查看详情 ↗</div></div>
+        <div class="node cmd" data-node="officers"><div class="n-name">独立官员</div><div class="n-role">审查团<br>白帽/质检/审计/合规/根因/性能</div><div class="n-hint">点击查看详情 ↗</div></div>
+      </div>
+      <div class="flow"><div class="flow-line"><div class="flow-dot"></div></div></div>
+      <div class="arch-level">── 师团级 · 域内选型 ──</div>
+      <div class="arch-cards">
+        <div class="node div" data-node="commanders"><div class="n-name">各级主帅</div><div class="n-role">内容 · 视觉 · 开发 · 情报 · 数据 · 安全 · 攻防</div><div class="n-hint">点击查看详情 ↗</div></div>
+      </div>
+      <div class="flow"><div class="flow-line"><div class="flow-dot"></div></div></div>
+      <div class="arch-level">── 执行层 · 亲自干活 ──</div>
+      <div class="arch-cards">
+        <div class="node exec" data-node="workers"><div class="n-name">专家 / 工兵</div><div class="n-role">打螺丝的只知打螺丝<br>装箱的只知装箱 · 并行执行</div><div class="n-hint">点击查看详情 ↗</div></div>
+      </div>
+    </div>
+    <p class="arch-note">调度链是<b>单链</b>的，但每一层都能<b>横向扇出并行</b> —— 简单任务走一层直道，复杂任务满三层，按需自适应。</p>
+  </section>
+
+  <!-- 三大卖点 -->
+  <section>
+    <div class="sec-title"><span class="icon">🔥</span>三大卖点</div>
+    <div class="sell">
+      <div class="sell-card">
+        <span class="num">01</span><h3>系统级无感调用</h3>
+        <p>用户只说"把这个表格做成 PPT 发群里"，系统自己决定该调飞书、还是 PPT、还是发消息。<b>全程不让用户接触 skill/插件/MCP 这些概念。</b></p>
+        <div class="src">核心价值 · <b>小白用户永远不用选技能</b></div>
+      </div>
+      <div class="sell-card">
+        <span class="num">02</span><h3>能力进化重生</h3>
+        <p>同类型能力不"叠加"、不"只留最强"，而是<b>查漏补缺、取长补短地重生</b>成一个不属于任何前身的新物种。</p>
+        <div class="src">进化工程 · <b>AutoSkill + MoErging + OpenSkill + SEED</b></div>
+      </div>
+      <div class="sell-card">
+        <span class="num">03</span><h3>白帽反迎合</h3>
+        <p>内置"白帽"（宪兵，戴白钢盔），专门从你的利益出发找反例、风险、遗漏。<b>没有它，任何 AI 都只会一味迎合你。</b></p>
+        <div class="src">官方坐实 · <b>Anthropic Persona Vectors + OpenAI 回滚 GPT-4o</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 背书 -->
+  <section>
+    <div class="sec-title"><span class="icon">📐</span>每一个设计，都有学术 / 官方背书</div>
+    <div class="sec-sub">每个角色都站在「官方出品 或 GitHub 高星 / 顶会论文」的已验证能力上</div>
+    <div class="evidence">
+      <div class="ev-row"><div class="ev-left">MoE 统一形态</div><div class="ev-right">MoRAgent · <b>ICML 2025</b>（Mixture-of-Roles）</div></div>
+      <div class="ev-row"><div class="ev-left">自适应层级</div><div class="ev-right"><b>Cursor 百万行代码实战</b> + Gated Routing</div></div>
+      <div class="ev-row"><div class="ev-left">主帅选型</div><div class="ev-right">GraphRouter · <b>ICLR 2025</b> + OWL · <b>NeurIPS 2025</b></div></div>
+      <div class="ev-row"><div class="ev-left">融合两分法</div><div class="ev-right">GraphRouter + MoErging · <b>TMLR</b></div></div>
+      <div class="ev-row"><div class="ev-left">情报官只搜集不分析</div><div class="ev-right">DecoupleSearch · <b>EMNLP 2025</b></div></div>
+      <div class="ev-row"><div class="ev-left">记忆压缩</div><div class="ev-right">Structured Distillation（<b>11 倍 token 削减</b>）+ Hermes</div></div>
+      <div class="ev-row"><div class="ev-left">代码质量</div><div class="ev-right">DeepCode（<b>75.9% 超人类专家基线</b>）+ superpowers（187K⭐）</div></div>
+      <div class="ev-row"><div class="ev-left">根因修复</div><div class="ev-right">Microsoft OpenRCA · <b>ICLR 2025</b> + ICSE 2025</div></div>
+      <div class="ev-row"><div class="ev-left">产出物安全自查</div><div class="ev-right">Facebook secpriv-skill（<b>128-case benchmark</b>）+ Cisco ai-deep-sast</div></div>
+      <div class="ev-row"><div class="ev-left">防恶意代码</div><div class="ev-right">OWASP 官方指南 + aguara + JadeGate</div></div>
+      <div class="ev-row"><div class="ev-left">破译 + 加密</div><div class="ev-right">Google CASCADE · <b>ICSE 2026</b> + 博世 ProxyPrompt + DeepMind CaMeL</div></div>
+    </div>
+  </section>
+
+  <!-- 通病 -->
+  <section>
+    <div class="sec-title"><span class="icon">🛡️</span>三大通病，从源头堵死</div>
+    <div class="sec-sub">不靠"防御"（事后检测拦截），而是从结构上让它不发生</div>
+    <div class="cure">
+      <div class="cure-card"><h4>上下文超大</h4><p>全量数据从第一次读起就没进上下文的通道。</p></div>
+      <div class="cure-card"><h4>任务耗时久</h4><p>直道优先 + 真并行 + 前置限制，绕路的结构根本不存在。</p></div>
+      <div class="cure-card"><h4>融合不如不用</h4><p>选型与重生分开，主帅只选型不堆叠。</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="footer-line">命名：阿极 · 参谋部 · 主帅 · 独立官员 · 工兵 —— 全是无极自己的建制，不借外部名。</p>
+    <p class="footer-line">纪律：独立官员只有建议权、零修改权；融合永远是重生，不是叠加不是替换。</p>
+    <a class="star" href="#">⭐ Star this project</a>
+    <p class="footer-motto" style="margin-top:26px;">⚔️ 运筹帷幄之中，决胜千里之外</p>
+  </footer>
+
+</div>
+
+<!-- Modal -->
+<div class="modal-mask" id="modalMask">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">×</button>
+    <h2 id="mName"></h2>
+    <div class="m-tier" id="mTier"></div>
+    <div class="m-row"><div class="m-label">职责</div><div class="m-val" id="mDuty"></div></div>
+    <div class="m-row"><div class="m-label">模型档</div><div class="m-val" id="mModel"></div></div>
+    <div class="m-divider"></div>
+    <div class="m-row"><div class="m-label">能力背书</div><div class="m-val" id="mSrc"></div></div>
+    <div class="m-row"><div class="m-label">不能干</div><div class="m-val" id="mCant"></div></div>
+  </div>
+</div>
+
+<script>
+  const nodes = {
+    aji: {
+      name: '阿极', tier: '军团级 · 会话层',
+      duty: '唯一用户接口：用人话收集需求、澄清歧义、填需求表、向用户汇报结果。不亲自干活、不验收。',
+      model: '低档（便宜快速）—— 收集需求对话多、不需高推理',
+      src: 'Google Learning to Clarify（ICLR 2025）· Claude Agent SDK Cookbook',
+      cant: '不亲自执行任务、不裁决完成、不调度子 agent'
+    },
+    staff: {
+      name: '参谋部', tier: '军团级 · 宿主层 · 唯一主链',
+      duty: '全局调度中枢：把需求拆成任务表（甘特图式），配发给各级主帅，实时监控反馈，失败重派。分析归它（情报官只搜集不分析）。',
+      model: '最高档（最高智商）—— 拆任务、调度、判断失败处理最需动脑',
+      src: 'OpenAI Agents SDK（handoff）· Claude subagents · Agent-Oriented Planning（ICLR）',
+      cant: '不亲自执行任务；是唯一裁决者，不存在第二个调度者'
+    },
+    officers: {
+      name: '独立官员', tier: '军团级 · 执行层审查 · MoE 化',
+      duty: '审查团：白帽（反驳防迎合）、质检（产物质量）、审计（证据链）、合规（许可）、根因（复发才深挖）、性能。默认单 agent 承载全部职权、每次激活一个。',
+      model: 'MoE（一个 agent 多人格，按需激活）',
+      src: '白帽：Anthropic Persona Vectors · 根因：Microsoft OpenRCA · 审计：Facebook secpriv（128 benchmark）',
+      cant: '只有建议权、零修改权——不写表、不派发、不否决、不裁决完成'
+    },
+    commanders: {
+      name: '各级主帅', tier: '师团级 · 执行层选型者',
+      duty: '域内选型者：内容/视觉/开发/情报/数据/安全/攻防，各管一域。只做一件事——在自己域里选对 skill/专家、组织执行顺序。不亲自执行重活。',
+      model: '中档 —— 选型要判断，但不亲自干重活',
+      src: 'GraphRouter（ICLR）· OWL（NeurIPS）· 各域挂官方能力（superpowers/claude-open-design/Marco 等）',
+      cant: '不做全局裁决（那是参谋部）、不亲自执行重活（那是专家/工兵）'
+    },
+    workers: {
+      name: '专家 / 工兵', tier: '执行层 · 亲自干活',
+      duty: '执行终端：打螺丝的只知打螺丝、装箱的只知装箱——每个只拿自己那份任务说明，不需要全局上下文。无依赖则并行。',
+      model: '按任务难度分档（低/中/高）',
+      src: 'SubAgent 三铁律（状态隔离/原子通信/契约化错误）· 各域官方 skill',
+      cant: '不越级、不派发、不裁决；只干被派发的单一职能'
+    }
+  };
+
+  const mask = document.getElementById('modalMask');
+  const el = {
+    name: document.getElementById('mName'),
+    tier: document.getElementById('mTier'),
+    duty: document.getElementById('mDuty'),
+    model: document.getElementById('mModel'),
+    src: document.getElementById('mSrc'),
+    cant: document.getElementById('mCant')
+  };
+
+  document.querySelectorAll('.node[data-node]').forEach(card => {
+    card.addEventListener('click', () => {
+      const d = nodes[card.dataset.node];
+      if (!d) return;
+      el.name.textContent = d.name;
+      el.tier.textContent = d.tier;
+      el.duty.textContent = d.duty;
+      el.model.textContent = d.model;
+      el.src.textContent = d.src;
+      el.cant.textContent = d.cant;
+      mask.classList.add('show');
+    });
+  });
+
+  document.getElementById('modalClose').addEventListener('click', () => mask.classList.remove('show'));
+  mask.addEventListener('click', e => { if (e.target === mask) mask.classList.remove('show'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') mask.classList.remove('show'); });
+</script>
+</body>
+</html>

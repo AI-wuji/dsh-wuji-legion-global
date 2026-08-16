@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wuji Legion · dsh-wuji-legion — The Self-Evolving Agent Legion</title>
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #0f1629;
+    --card: #151d33;
+    --card-hover: #1a2440;
+    --border: #24304f;
+    --gold: #f0b429;
+    --gold2: #f7c948;
+    --blue: #4d8dff;
+    --cyan: #38cbd0;
+    --green: #35c46a;
+    --red: #e5484d;
+    --text: #e8ecf5;
+    --text-dim: #98a3bd;
+    --text-faint: #66718c;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -2;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 0%, rgba(77,141,255,0.12), transparent),
+      radial-gradient(ellipse 50% 35% at 80% 10%, rgba(240,180,41,0.10), transparent),
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(56,203,208,0.08), transparent),
+      var(--bg);
+  }
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: -1;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 0%, transparent 75%);
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 60px 24px 80px; }
+
+  header { text-align: center; margin-bottom: 54px; }
+  .emblem {
+    width: 78px; height: 78px; margin: 0 auto 22px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--gold), #c8871a);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px;
+    box-shadow: 0 0 40px rgba(240,180,41,0.45), 0 8px 24px rgba(0,0,0,0.5);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 30px rgba(240,180,41,0.35), 0 8px 24px rgba(0,0,0,0.5); }
+    50% { box-shadow: 0 0 55px rgba(240,180,41,0.6), 0 8px 24px rgba(0,0,0,0.5); }
+  }
+  h1 {
+    font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: 1px;
+    background: linear-gradient(135deg, #fff 0%, var(--gold2) 60%, var(--gold) 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 14px;
+  }
+  .tagline { font-size: clamp(15px, 2.4vw, 20px); font-weight: 500; color: var(--text); max-width: 640px; margin: 0 auto 10px; }
+  .tagline b { color: var(--gold2); }
+  .subtag { color: var(--text-dim); font-size: 14px; }
+  .badges { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .badge { font-size: 12px; padding: 6px 14px; border-radius: 20px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-dim); letter-spacing: 0.5px; }
+  .badge.gold { border-color: rgba(240,180,41,0.4); color: var(--gold2); }
+
+  section { margin-bottom: 60px; }
+  .sec-title { text-align: center; font-size: 26px; font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; }
+  .sec-title .icon { margin-right: 6px; }
+  .sec-sub { text-align: center; color: var(--text-dim); font-size: 14px; margin-bottom: 34px; }
+
+  .banner { background: linear-gradient(135deg, rgba(77,141,255,0.10), rgba(240,180,41,0.08)); border: 1px solid var(--border); border-radius: 18px; padding: 34px 28px; text-align: center; }
+  .banner .quote { font-size: clamp(17px, 3vw, 23px); font-weight: 600; color: var(--text); margin-bottom: 20px; line-height: 1.6; }
+  .banner .quote .hl { color: var(--gold2); }
+  .vs { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+  .vs-item { font-size: 13px; padding: 8px 16px; border-radius: 10px; background: var(--card); border: 1px solid var(--border); color: var(--text-dim); }
+  .vs-item b { color: var(--cyan); }
+
+  .arch { display: flex; flex-direction: column; gap: 0; }
+  .arch-level { text-align: center; font-size: 13px; color: var(--text-faint); letter-spacing: 1px; margin: 6px 0; }
+  .arch-cards { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+  .node {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px 22px; min-width: 150px; text-align: center;
+    transition: all 0.25s ease; position: relative; cursor: pointer;
+  }
+  .node:hover { background: var(--card-hover); border-color: rgba(240,180,41,0.4); transform: translateY(-3px); }
+  .node .n-name { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .node .n-role { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+  .node .n-hint { font-size: 10px; color: var(--text-faint); margin-top: 8px; opacity: 0.8; }
+  .node.cmd { border-color: rgba(240,180,41,0.5); background: linear-gradient(160deg, rgba(240,180,41,0.12), var(--card)); }
+  .node.cmd .n-name { color: var(--gold2); }
+  .node.exec .n-name { color: var(--green); }
+  .node.div .n-name { color: var(--blue); }
+
+  .flow { height: 40px; display: flex; align-items: center; justify-content: center; position: relative; }
+  .flow-line { width: 2px; height: 100%; background: linear-gradient(to bottom, transparent, rgba(77,141,255,0.5), transparent); position: relative; overflow: visible; }
+  .flow-dot {
+    position: absolute; left: -2px; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold2);
+    box-shadow: 0 0 10px rgba(240,180,41,0.9), 0 0 20px rgba(240,180,41,0.5);
+    animation: flowDown 1.6s ease-in-out infinite;
+  }
+  @keyframes flowDown {
+    0% { top: -4px; opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { top: calc(100% - 2px); opacity: 0; }
+  }
+
+  .arch-note { text-align: center; color: var(--text-dim); font-size: 13px; margin-top: 18px; }
+
+  .sell { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+  .sell-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 26px 24px; transition: all 0.25s ease; }
+  .sell-card:hover { background: var(--card-hover); transform: translateY(-4px); border-color: rgba(77,141,255,0.4); }
+  .sell-card .num { font-size: 14px; font-weight: 800; color: var(--gold2); display: inline-block; margin-bottom: 10px; }
+  .sell-card h3 { font-size: 19px; font-weight: 700; margin-bottom: 12px; }
+  .sell-card p { font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+  .sell-card .src { font-size: 12px; color: var(--text-faint); margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border); }
+  .sell-card .src b { color: var(--cyan); }
+
+  .evidence { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  .ev-row { display: grid; grid-template-columns: 1fr 1.2fr; border-bottom: 1px solid var(--border); }
+  .ev-row:last-child { border-bottom: none; }
+  .ev-row > div { padding: 15px 20px; font-size: 13.5px; }
+  .ev-left { background: rgba(255,255,255,0.02); color: var(--text); font-weight: 600; }
+  .ev-right { color: var(--text-dim); }
+  .ev-right b { color: var(--cyan); font-weight: 600; }
+  @media (max-width: 640px) { .ev-row { grid-template-columns: 1fr; } .ev-right { border-top: 1px solid var(--border); } }
+
+  .cure { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+  .cure-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; border-left: 3px solid var(--green); }
+  .cure-card h4 { font-size: 16px; margin-bottom: 10px; color: var(--green); }
+  .cure-card p { font-size: 13.5px; color: var(--text-dim); }
+
+  .modal-mask {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(4,6,12,0.7); backdrop-filter: blur(6px);
+    display: none; align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal-mask.show { display: flex; }
+  .modal {
+    background: var(--card); border: 1px solid rgba(240,180,41,0.35);
+    border-radius: 18px; max-width: 520px; width: 100%;
+    padding: 30px 28px; position: relative;
+    animation: modalIn 0.25s ease;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(240,180,41,0.15);
+  }
+  @keyframes modalIn { from { opacity: 0; transform: translateY(16px) scale(0.97); } to { opacity: 1; transform: none; } }
+  .modal-close { position: absolute; top: 14px; right: 18px; font-size: 22px; color: var(--text-faint); cursor: pointer; background: none; border: none; line-height: 1; }
+  .modal-close:hover { color: var(--text); }
+  .modal h2 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+  .modal .m-tier { font-size: 13px; color: var(--gold2); margin-bottom: 18px; letter-spacing: 1px; }
+  .modal .m-row { display: flex; margin-bottom: 14px; font-size: 14px; }
+  .modal .m-label { flex: 0 0 92px; color: var(--text-faint); font-weight: 600; }
+  .modal .m-val { color: var(--text-dim); flex: 1; }
+  .modal .m-val b { color: var(--cyan); }
+  .modal .m-divider { border-top: 1px dashed var(--border); margin: 16px 0 14px; }
+
+  footer { text-align: center; margin-top: 60px; }
+  .footer-line { color: var(--text-dim); font-size: 14px; margin-bottom: 18px; }
+  .footer-motto { font-size: 15px; letter-spacing: 2px; color: var(--gold2); opacity: 0.8; font-weight: 600; }
+  .star { display: inline-block; margin-top: 20px; padding: 12px 28px; background: linear-gradient(135deg, var(--gold), #c8871a); color: #1a1204; font-weight: 700; font-size: 15px; border-radius: 30px; text-decoration: none; letter-spacing: 1px; box-shadow: 0 6px 20px rgba(240,180,41,0.35); transition: transform 0.2s; }
+  .star:hover { transform: scale(1.05); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="emblem">⚔️</div>
+    <h1>Wuji Legion · dsh-wuji-legion</h1>
+    <p class="tagline">We turned a <b>self-evolving legion of AI agents</b> into a system — running on DeepSeek Harness.</p>
+    <p class="subtag">Not a multi-agent framework where you assemble the blocks yourself, but an already-formed, disciplined, ever-stronger AI legion.</p>
+    <div class="badges">
+      <span class="badge gold">Platform · DeepSeek Harness</span>
+      <span class="badge">Multi-Agent Legion</span>
+      <span class="badge">MoE (Mixture-of-Roles)</span>
+      <span class="badge gold">Self-Evolution Built-in</span>
+      <span class="badge">MIT License</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="banner">
+      <p class="quote">A novice who doesn't know what <span class="hl">Skill / plugin / MCP</span> means gives an order in plain language —<br>Wuji Legion automatically mobilizes the entire agent legion to get it done — <span class="hl">and keeps getting stronger</span>.</p>
+      <div class="vs">
+        <span class="vs-item">One more layer of <b>institutional hierarchy</b> than CrewAI</span>
+        <span class="vs-item">One more <b>capability-evolution engine</b> than AutoGen</span>
+        <span class="vs-item">One more set of <b>power boundaries</b> than LangGraph</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="icon">🏛️</span>Three-Tier Structure</div>
+    <div class="sec-sub">Every role is a real agent (MoE) · <b style="color:var(--gold2)">click a role card to view details</b></div>
+    <div class="arch">
+      <div class="arch-level">── Corps Level · Single Chain ──</div>
+      <div class="arch-cards">
+        <div class="node cmd" data-node="aji"><div class="n-name">A-Ji</div><div class="n-role">User Interface<br>Collects requirements, clarifies, reports</div><div class="n-hint">Click for details ↗</div></div>
+        <div class="node cmd" data-node="staff"><div class="n-name">General Staff</div><div class="n-role">Global Dispatch<br>Sole decider · highest intelligence</div><div class="n-hint">Click for details ↗</div></div>
+        <div class="node cmd" data-node="officers"><div class="n-name">Officers</div><div class="n-role">Review Corps<br>White-Hat / QA / Audit / Compliance / Root-Cause / Performance</div><div class="n-hint">Click for details ↗</div></div>
+      </div>
+      <div class="flow"><div class="flow-line"><div class="flow-dot"></div></div></div>
+      <div class="arch-level">── Division Level · Domain Selection ──</div>
+      <div class="arch-cards">
+        <div class="node div" data-node="commanders"><div class="n-name">Commanders</div><div class="n-role">Content · Visual · Dev · Intel · Data · Security · Offense-Defense</div><div class="n-hint">Click for details ↗</div></div>
+      </div>
+      <div class="flow"><div class="flow-line"><div class="flow-dot"></div></div></div>
+      <div class="arch-level">── Execution Level · Does the Work ──</div>
+      <div class="arch-cards">
+        <div class="node exec" data-node="workers"><div class="n-name">Experts / Workers</div><div class="n-role">The screw-tightener only knows screws,<br>the packer only packs · run in parallel</div><div class="n-hint">Click for details ↗</div></div>
+      </div>
+    </div>
+    <p class="arch-note">The dispatch chain is <b>single</b>, but every tier <b>fans out in parallel</b> — simple tasks take a one-tier fast lane, complex tasks fill all three, adapting on demand.</p>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="icon">🔥</span>Three Highlights</div>
+    <div class="sell">
+      <div class="sell-card">
+        <span class="num">01</span><h3>System-Level Zero-Config Invocation</h3>
+        <p>The user just says "turn this table into a PPT and send it to the group" — the system decides which capability to call. <b>The user never touches skill/plugin/MCP concepts.</b></p>
+        <div class="src">Core value · <b>novices never pick a skill</b></div>
+      </div>
+      <div class="sell-card">
+        <span class="num">02</span><h3>Capability Evolution Reborn</h3>
+        <p>Similar capabilities are neither stacked nor trimmed — they are <b>reborn</b> into a new species, filling gaps and combining strengths.</p>
+        <div class="src">Evolution engineering · <b>AutoSkill + MoErging + OpenSkill + SEED</b></div>
+      </div>
+      <div class="sell-card">
+        <span class="num">03</span><h3>White-Hat Anti-Sycophancy</h3>
+        <p>Built-in "White Hat" (military police, white helmet) hunts for counterexamples, risks, and omissions in your interest. <b>Without it, any AI just flatters you.</b></p>
+        <div class="src">Officially grounded · <b>Anthropic Persona Vectors + OpenAI GPT-4o rollback</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="icon">📐</span>Every Design Is Backed</div>
+    <div class="sec-sub">Every role stands on verified capabilities — official, high-star, or top-conference</div>
+    <div class="evidence">
+      <div class="ev-row"><div class="ev-left">MoE unified form</div><div class="ev-right">MoRAgent · <b>ICML 2025</b> (Mixture-of-Roles)</div></div>
+      <div class="ev-row"><div class="ev-left">Adaptive hierarchy</div><div class="ev-right"><b>Cursor 1M-line practice</b> + Gated Routing</div></div>
+      <div class="ev-row"><div class="ev-left">Commander selection</div><div class="ev-right">GraphRouter · <b>ICLR 2025</b> + OWL · <b>NeurIPS 2025</b></div></div>
+      <div class="ev-row"><div class="ev-left">Fusion two-way split</div><div class="ev-right">GraphRouter + MoErging · <b>TMLR</b></div></div>
+      <div class="ev-row"><div class="ev-left">Intel gathers, staff analyzes</div><div class="ev-right">DecoupleSearch · <b>EMNLP 2025</b></div></div>
+      <div class="ev-row"><div class="ev-left">Memory compression</div><div class="ev-right">Structured Distillation (<b>11x token cut</b>) + Hermes</div></div>
+      <div class="ev-row"><div class="ev-left">Code quality</div><div class="ev-right">DeepCode (<b>75.9% beats human baseline</b>) + superpowers (187K⭐)</div></div>
+      <div class="ev-row"><div class="ev-left">Root-cause repair</div><div class="ev-right">Microsoft OpenRCA · <b>ICLR 2025</b> + ICSE 2025</div></div>
+      <div class="ev-row"><div class="ev-left">Artifact self-check</div><div class="ev-right">Facebook secpriv-skill (<b>128-case benchmark</b>) + Cisco ai-deep-sast</div></div>
+      <div class="ev-row"><div class="ev-left">Anti-malware</div><div class="ev-right">OWASP guide + aguara + JadeGate</div></div>
+      <div class="ev-row"><div class="ev-left">Deobfuscate + encrypt</div><div class="ev-right">Google CASCADE · <b>ICSE 2026</b> + Bosch ProxyPrompt + DeepMind CaMeL</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="icon">🛡️</span>Three Chronic Ills, Blocked at Source</div>
+    <div class="sec-sub">Not by defense (post-hoc), but structurally impossible</div>
+    <div class="cure">
+      <div class="cure-card"><h4>Context blowup</h4><p>Full data never had a channel into context from the first read.</p></div>
+      <div class="cure-card"><h4>Slow tasks</h4><p>Fast lane + true parallelism + pre-constraints — the detour structure doesn't exist.</p></div>
+      <div class="cure-card"><h4>Fusion worse than none</h4><p>Selection and rebirth are separated; commanders select, never stack.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="footer-line">Naming: A-Ji · General Staff · Commanders · Officers · Workers — all Wuji's own establishment.</p>
+    <p class="footer-line">Discipline: Officers advise only, never modify; fusion is always rebirth, never stacking.</p>
+    <a class="star" href="#">⭐ Star this project</a>
+    <p class="footer-motto" style="margin-top:26px;">⚔️ To plan within the command tent, to win a thousand miles away</p>
+  </footer>
+
+</div>
+
+<div class="modal-mask" id="modalMask">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">×</button>
+    <h2 id="mName"></h2>
+    <div class="m-tier" id="mTier"></div>
+    <div class="m-row"><div class="m-label">Duty</div><div class="m-val" id="mDuty"></div></div>
+    <div class="m-row"><div class="m-label">Model tier</div><div class="m-val" id="mModel"></div></div>
+    <div class="m-divider"></div>
+    <div class="m-row"><div class="m-label">Evidence</div><div class="m-val" id="mSrc"></div></div>
+    <div class="m-row"><div class="m-label">Cannot do</div><div class="m-val" id="mCant"></div></div>
+  </div>
+</div>
+
+<script>
+  const nodes = {
+    aji: {
+      name: 'A-Ji', tier: 'Corps Level · Session Layer',
+      duty: 'The sole user interface: collects requirements in plain language, clarifies ambiguity, fills the requirement table, reports results. Never does the work, never signs off.',
+      model: 'Low tier (cheap & fast) — requirement-gathering is chat-heavy, needs little reasoning',
+      src: 'Google Learning to Clarify (ICLR 2025) · Claude Agent SDK Cookbook',
+      cant: 'Never executes tasks, never decides completion, never dispatches sub-agents'
+    },
+    staff: {
+      name: 'General Staff', tier: 'Corps Level · Host Layer · Sole Chain',
+      duty: 'Global dispatch hub: breaks requirements into a task table (Gantt-style), assigns to commanders, monitors feedback in real time, re-dispatches on failure. Analysis belongs here (intel only gathers).',
+      model: 'Highest tier (most intelligent) — breaking tasks, scheduling, judging failures need the most reasoning',
+      src: 'OpenAI Agents SDK (handoff) · Claude subagents · Agent-Oriented Planning (ICLR)',
+      cant: 'Never executes tasks; it is the sole decider — no second dispatcher exists'
+    },
+    officers: {
+      name: 'Officers', tier: 'Corps Level · Execution Layer · MoE',
+      duty: 'Review corps: White-Hat (anti-sycophancy), QA (artifact quality), Audit (evidence chain), Compliance (licenses), Root-Cause (deep-dive on recurrence), Performance. Default: one agent carries all roles, activating one at a time.',
+      model: 'MoE (one agent, multiple personas, activate on demand)',
+      src: 'White-Hat: Anthropic Persona Vectors · Root-Cause: Microsoft OpenRCA · Audit: Facebook secpriv (128 benchmark)',
+      cant: 'Advise only, zero modification power — never writes tables, dispatches, vetoes, or signs off'
+    },
+    commanders: {
+      name: 'Commanders', tier: 'Division Level · Execution Layer · Selectors',
+      duty: 'Domain selectors: Content/Visual/Dev/Intel/Data/Security/Offense-Defense, each owning one domain. They do exactly one thing — pick the right skill/expert in their domain and order execution. Never do heavy work themselves.',
+      model: 'Mid tier — selection needs judgment, but no heavy lifting',
+      src: 'GraphRouter (ICLR) · OWL (NeurIPS) · per-domain official capabilities (superpowers / claude-open-design / Marco etc.)',
+      cant: 'Never makes global decisions (that is the Staff), never does heavy execution (that is the Workers)'
+    },
+    workers: {
+      name: 'Experts / Workers', tier: 'Execution Level · Does the Work',
+      duty: 'Execution terminals: the screw-tightener only knows screws, the packer only packs — each gets only its own task brief, no global context needed. Run in parallel when independent.',
+      model: 'Tiered by task difficulty (low / mid / high)',
+      src: 'SubAgent three laws (state isolation / atomic messaging / contractual errors) · per-domain official skills',
+      cant: 'Never escalates, dispatches, or decides; only does the assigned single function'
+    }
+  };
+
+  const mask = document.getElementById('modalMask');
+  const el = {
+    name: document.getElementById('mName'),
+    tier: document.getElementById('mTier'),
+    duty: document.getElementById('mDuty'),
+    model: document.getElementById('mModel'),
+    src: document.getElementById('mSrc'),
+    cant: document.getElementById('mCant')
+  };
+
+  document.querySelectorAll('.node[data-node]').forEach(card => {
+    card.addEventListener('click', () => {
+      const d = nodes[card.dataset.node];
+      if (!d) return;
+      el.name.textContent = d.name;
+      el.tier.textContent = d.tier;
+      el.duty.textContent = d.duty;
+      el.model.textContent = d.model;
+      el.src.textContent = d.src;
+      el.cant.textContent = d.cant;
+      mask.classList.add('show');
+    });
+  });
+
+  document.getElementById('modalClose').addEventListener('click', () => mask.classList.remove('show'));
+  mask.addEventListener('click', e => { if (e.target === mask) mask.classList.remove('show'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') mask.classList.remove('show'); });
+</script>
+</body>
+</html>
