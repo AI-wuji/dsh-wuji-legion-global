@@ -1,0 +1,86 @@
+{
+  "version": "0.1.0",
+  "policy": "能力注册表（Capability Registry）。这是无极军团的技能清单数据源——每条登记一个能力，含触发词、入口、归属主帅、生命周期、验证探针。参谋部的 capability-mount 在此清单上做确定性路由。",
+  "capabilities": [
+    {
+      "id": "feishu-doc",
+      "domain": "feishu",
+      "commander": "情报主帅",
+      "triggers": ["飞书文档", "文档", "docx", "云文档", "feishu doc"],
+      "entrypoint": "skill:lark-doc",
+      "lifecycle": "behavior-verified",
+      "verify": "官方 lark-cli 已装",
+      "fallback": "lark-openapi-explorer"
+    },
+    {
+      "id": "feishu-sheets",
+      "domain": "feishu",
+      "commander": "数据主帅",
+      "triggers": ["飞书表格", "电子表格", "sheet", "表格", "excel"],
+      "entrypoint": "skill:lark-sheets",
+      "lifecycle": "behavior-verified",
+      "verify": "官方 lark-cli 已装",
+      "fallback": "lark-openapi-explorer"
+    },
+    {
+      "id": "feishu-im",
+      "domain": "feishu",
+      "commander": "情报主帅",
+      "triggers": ["发消息", "发群", "飞书消息", "群聊", "im"],
+      "entrypoint": "skill:lark-im",
+      "lifecycle": "behavior-verified",
+      "verify": "官方 lark-cli 已装",
+      "fallback": "lark-openapi-explorer"
+    },
+    {
+      "id": "presentation-html",
+      "domain": "presentation",
+      "commander": "视觉主帅",
+      "triggers": ["ppt", "幻灯片", "演示", "presentation", "做演示", "html演示"],
+      "entrypoint": "skill:dashi-ppt",
+      "lifecycle": "behavior-verified",
+      "verify": "本机已装",
+      "fallback": "visual 域原生能力"
+    },
+    {
+      "id": "presentation-editable",
+      "domain": "presentation",
+      "commander": "视觉主帅",
+      "triggers": ["可编辑ppt", "pptx", "可编辑演示", "editable ppt"],
+      "entrypoint": "plugin:wuji-editable-deck",
+      "lifecycle": "callable",
+      "verify": "待融合重生后 behavior-verified",
+      "fallback": "presentation-html"
+    },
+    {
+      "id": "code-dev",
+      "domain": "code",
+      "commander": "开发主帅",
+      "triggers": ["写代码", "开发", "实现", "bug修复", "refactor", "implement", "code"],
+      "entrypoint": "native coding",
+      "lifecycle": "behavior-verified",
+      "verify": "DSH 原生 + superpowers/ponytail/addyosmani",
+      "fallback": "DSH 原生代码能力"
+    },
+    {
+      "id": "search-web",
+      "domain": "search",
+      "commander": "情报主帅",
+      "triggers": ["搜索", "检索", "调研", "全网", "research", "search"],
+      "entrypoint": "tool:web_search + 情报主帅并行多源",
+      "lifecycle": "behavior-verified",
+      "verify": "Marco-DeepResearch benchmark 背书",
+      "fallback": "DSH 原生 web 搜索"
+    },
+    {
+      "id": "writing",
+      "domain": "writing",
+      "commander": "内容主帅",
+      "triggers": ["写文案", "写作", "营销", "copywriting", "文章"],
+      "entrypoint": "skill:内容主帅（khazix/baoyu 蒸馏）",
+      "lifecycle": "callable",
+      "verify": "待融合重生后 behavior-verified",
+      "fallback": "DSH 原生写作能力"
+    }
+  ]
+}
