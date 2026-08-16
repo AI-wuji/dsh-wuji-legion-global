@@ -1,9 +1,8 @@
 // Wuji Legion · 宿主插件包主入口
-// default 导出宿主插件：注册三张表投影单元 + 技能注册。
-// 同时导出投影定义（供测试/其他插件引用）。
-// 注意：Cordis 通过 package.json 的 main 加载此文件，default 导出必须是插件对象。
+// 参考 dsh-goal 已验证的投影注册模式：用 ctx.inject(['sessionProjections'], ...) 注册投影单元。
+// 插件形态：Cordis 普通插件对象（{ name, apply }），apply 里通过 ctx.inject 访问可选服务。
 
-import projectionPlugin, {
+import {
   requirementProjection,
   taskProjection,
   officerAdviceProjection,
@@ -12,17 +11,25 @@ import skillRegistryPlugin from './skill-registry.js';
 
 export default {
   name: 'wuji-host',
-  inject: ['sessionProjections', 'skills'],
   apply(ctx) {
-    // 注册三张表投影
-    projectionPlugin.apply(ctx);
-    // 注册技能库
-    skillRegistryPlugin.apply(ctx);
+    // 注册三张表投影（仅当 sessionProjections 服务存在时；headless 无 registry 时不受影响）
+    ctx.inject(['sessionProjections'], (projectionCtx) => {
+      const p = projectionCtx.sessionProjections;
+      p.register(requirementProjection);
+      p.register(taskProjection);
+      p.register(officerAdviceProjection);
+    });
+
+    // 注册技能库（仅当 skills 服务存在时）
+    ctx.inject(['skills'], (skillsCtx) => {
+      skillRegistryPlugin.apply(skillsCtx, {
+        registryPath: process.env.WUJI_REGISTRY_PATH,
+      });
+    });
   },
 };
 
 export {
-  projectionPlugin,
   skillRegistryPlugin,
   requirementProjection,
   taskProjection,
