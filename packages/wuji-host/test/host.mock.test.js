@@ -1,0 +1,25 @@
+import host from '@wuji/dsh-wuji-host';
+
+const projectionKeys = [];
+const skills = [];
+const ctx = {
+  inject(deps, fn) {
+    const name = deps[0];
+    if (name === 'sessionProjections') {
+      fn({ sessionProjections: { register(definition) { projectionKeys.push(definition.key); } } });
+    } else if (name === 'skills') {
+      fn({ skills: { register(skill) { skills.push(skill); } } });
+    }
+  },
+};
+
+host.apply(ctx);
+console.log(JSON.stringify({
+  projectionKeys,
+  skillCount: skills.length,
+  skillNames: skills.map(x => x.name),
+  skillFields: skills[0] ? Object.keys(skills[0]) : [],
+}, null, 2));
+if (projectionKeys.length !== 3) process.exit(1);
+if (skills.length !== 8) process.exit(1);
+if (!skills[0].content || !skills[0].source || !skills[0].metadata) process.exit(1);
