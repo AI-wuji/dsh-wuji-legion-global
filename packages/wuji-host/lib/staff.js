@@ -36,7 +36,7 @@ export const staffPlanTool = {
         objective: { type: 'string' },
         taskCount: { type: 'number' },
         taskIds: { type: 'array', items: { type: 'string' } },
-        activeTaskId: { type: ['string', 'null'] },
+        activeTaskId: { oneOf: [{ type: 'string' }, { type: 'null' }] },
         dependenciesValid: { type: 'boolean' },
       },
       required: ['objective', 'taskCount', 'taskIds', 'activeTaskId', 'dependenciesValid'],
@@ -89,7 +89,7 @@ export const staffDispatchTool = {
     required: ['task', 'provider', 'prompt'],
   },
   output: {
-    schema: { type: 'object', properties: { taskId: { type: 'string' }, status: { type: 'string' }, childId: { type: ['string', 'null'] } }, required: ['taskId', 'status', 'childId'] },
+    schema: { type: 'object', properties: { taskId: { type: 'string' }, status: { type: 'string' }, childId: { oneOf: [{ type: 'string' }, { type: 'null' }] } }, required: ['taskId', 'status', 'childId'] },
     render(_args, value) { return [{ type: 'text', text: JSON.stringify(value, null, 2) }]; },
   },
   isConcurrencySafe() { return false; },
