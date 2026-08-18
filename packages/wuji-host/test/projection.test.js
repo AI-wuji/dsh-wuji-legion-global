@@ -37,7 +37,7 @@ assert('任务状态更新+证据', t2.nodes[0].status === 'success' && t2.nodes
 
 console.log('=== 官员建议表 apply ===');
 const o0 = officerAdviceProjection.init();
-const o1 = officerAdviceProjection.apply(o0, { type: 'wuji/officer-advice/change', data: { adviceId: 'a1', patch: { officer: '白帽', content: '这个方案有风险', evidence: 'e1', userDecision: 'pending', affectedRequirement: 'u1' } } });
+const o1 = officerAdviceProjection.apply(o0, { type: 'wuji/officer-advice/change', data: { adviceId: 'a1', patch: { officer: 'qa', content: '这个方案有风险', evidence: 'e1', userDecision: 'pending', affectedRequirement: 'u1' } } });
 assert('建议新增且默认 pending', o1.advices.length === 1 && o1.advices[0].userDecision === 'pending');
 const o2 = officerAdviceProjection.apply(o1, { type: 'wuji/officer-advice/decision', data: { adviceId: 'a1', userDecision: 'adopted' } });
 assert('用户采纳建议', o2.advices[0].userDecision === 'adopted');

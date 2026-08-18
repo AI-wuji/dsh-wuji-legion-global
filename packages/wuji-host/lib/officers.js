@@ -1,5 +1,6 @@
 // Wuji Legion · 独立官员 MoE（P3）
-const OFFICERS=new Set(['white-hat','qa','audit','compliance','root-cause','performance','composite']);
+const OFFICERS=new Set(['qa','audit','compliance','root-cause','performance','composite']);
+// 阿极已内置客观独立判断；独立官员不再提供 white-hat 职权。
 export const officerAdviseTool={
   name:'wuji_officer_advise',
   description:'独立官员 MoE：一次激活一个官员职权，只提交建议与证据；零修改、零派发、零否决、零完成权。',
@@ -7,7 +8,7 @@ export const officerAdviseTool={
   output:{schema:{type:'object',properties:{adviceId:{type:'string'},officer:{type:'string'},status:{type:'string'}},required:['adviceId','officer','status']},render(_a,v){return[{type:'text',text:JSON.stringify(v,null,2)}]}},
   isConcurrencySafe(){return true},
   async execute(args,exec){
-    if(!OFFICERS.has(args.officer))throw new Error(`未知官员职权：${args.officer}`);
+    if(!OFFICERS.has(args.officer))throw new Error(`未知独立官员职权：${args.officer}`);
     const session=exec.agent?.session;if(!session)throw new Error('官员建议必须归属于当前 Session');
     session.append('wuji/officer-advice/change',{adviceId:args.adviceId,patch:{officer:args.officer,content:args.content,evidence:args.evidence,userDecision:'pending',affectedRequirement:args.affectedRequirement??null}});
     session.append('wuji/officer-advice/activate',{adviceId:args.adviceId});

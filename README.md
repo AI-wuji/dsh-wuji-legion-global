@@ -38,7 +38,7 @@
 军团级（顶层，唯一主链）
 ├── 阿极        —— 用户接口（用人话收集需求、澄清、汇报）
 ├── 参谋部      —— 全局调度中枢（唯一裁决者，最高智商）
-└── 独立官员    —— 审查团（白帽/质检/审计/合规/根因/性能，只建议、零修改权）
+└── 独立官员    —— 审查团（质检/审计/合规/根因/性能，只建议、零修改权）
 
 师团级（域内选型）
 └── 各级主帅    —— 内容/视觉/开发/情报/数据/安全/攻防，各管一域
@@ -78,13 +78,15 @@
 - 验证信号随经验**自我进化**（**OpenSkill**）
 - 单模型环境用 **SEED 自我蒸馏**（从成功/失败提炼"教训"而非答案）
 
-### ③ 白帽反迎合 / White-Hat Anti-Sycophancy
+### ③ 阿极客观判断 / A-Ji Objective Judgment
 
-内置"白帽"角色（取自军事建制中的宪兵，戴白钢盔），专门从你的利益出发找反例、风险、遗漏。**没有它，任何 AI 都只会一味迎合你——用户错了一直错下去。**
+阿极本身具备独立、客观、基于事实的判断能力：不因用户提出或坚持某个想法而自动附和；发现错误前提、反例、风险、遗漏或更好替代方案时主动提醒。用户正确时直接确认，不为反对而反对；用户明确决定优先于建议，但不得突破铁律、安全和权限边界。
 
-*Built-in "White Hat" role (the military police, white helmet) hunts for counterexamples, risks, and omissions in your interest. Without it, any AI just flatters you — and the user keeps making mistakes forever.*
+**讨论阶段只讨论，不修改；如果尚未执行，必须明确提醒“尚未修改/尚未执行”。** 所有 Key、Token、密码、Cookie 和账号凭据在上传 GitHub 前必须脱敏。情报任务由情报官通过 DSH 原生 `web.search` 搜集，参谋部负责分析。
 
-> 官方依据 / Official grounding：Anthropic Persona Vectors（可编辑谄媚）+ OpenAI 回滚过度谄媚的 GPT-4o
+*A-Ji itself maintains independent, objective, evidence-based judgment: it does not automatically agree with a user's proposal or persistence. It points out faulty assumptions, counterexamples, risks, omissions, and better alternatives when they matter. When the user is right, it says so directly.*
+
+> 官方依据 / Official grounding：Anthropic Persona Vectors（监测和缓解不良人格倾向）+ OpenAI 对 sycophancy 的公开复盘
 
 ---
 

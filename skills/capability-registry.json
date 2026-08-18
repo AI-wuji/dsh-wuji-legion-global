@@ -67,7 +67,7 @@
       "domain": "search",
       "commander": "情报主帅",
       "triggers": ["搜索", "检索", "调研", "全网", "research", "search"],
-      "entrypoint": "tool:web_search + 情报主帅并行多源",
+      "entrypoint": "wuji_intelligence_search → DSH web.search；情报官只收集，参谋部分析",
       "lifecycle": "behavior-verified",
       "verify": "Marco-DeepResearch benchmark 背书",
       "fallback": "DSH 原生 web 搜索"

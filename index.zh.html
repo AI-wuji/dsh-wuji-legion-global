@@ -223,7 +223,7 @@
       <div class="arch-cards">
         <div class="node cmd" data-node="aji"><div class="n-name">阿极</div><div class="n-role">用户接口<br>用人话收集需求、澄清、汇报</div><div class="n-hint">点击查看详情 ↗</div></div>
         <div class="node cmd" data-node="staff"><div class="n-name">参谋部</div><div class="n-role">全局调度中枢<br>唯一裁决者 · 最高智商</div><div class="n-hint">点击查看详情 ↗</div></div>
-        <div class="node cmd" data-node="officers"><div class="n-name">独立官员</div><div class="n-role">审查团<br>白帽/质检/审计/合规/根因/性能</div><div class="n-hint">点击查看详情 ↗</div></div>
+        <div class="node cmd" data-node="officers"><div class="n-name">独立官员</div><div class="n-role">审查团<br>质检/审计/合规/根因/性能</div><div class="n-hint">点击查看详情 ↗</div></div>
       </div>
       <div class="flow"><div class="flow-line"><div class="flow-dot"></div></div></div>
       <div class="arch-level">── 师团级 · 域内选型 ──</div>
@@ -254,9 +254,9 @@
         <div class="src">进化工程 · <b>AutoSkill + MoErging + OpenSkill + SEED</b></div>
       </div>
       <div class="sell-card">
-        <span class="num">03</span><h3>白帽反迎合</h3>
-        <p>内置"白帽"（宪兵，戴白钢盔），专门从你的利益出发找反例、风险、遗漏。<b>没有它，任何 AI 都只会一味迎合你。</b></p>
-        <div class="src">官方坐实 · <b>Anthropic Persona Vectors + OpenAI 回滚 GPT-4o</b></div>
+        <span class="num">03</span><h3>阿极客观判断</h3>
+        <p>阿极本身保持独立、客观、基于事实的判断，不自动附和用户；发现错误前提、反例、风险或遗漏时主动提醒，用户正确时直接确认。</p>
+        <div class="src">官方依据 · <b>Anthropic Persona Vectors + OpenAI sycophancy 复盘</b></div>
       </div>
     </div>
   </section>
@@ -332,9 +332,9 @@
     },
     officers: {
       name: '独立官员', tier: '军团级 · 执行层审查 · MoE 化',
-      duty: '审查团：白帽（反驳防迎合）、质检（产物质量）、审计（证据链）、合规（许可）、根因（复发才深挖）、性能。默认单 agent 承载全部职权、每次激活一个。',
+      duty: '审查团：质检（产物质量）、审计（证据链）、合规（许可）、根因（复发才深挖）、性能。阿极负责日常客观判断，不属于独立官员。',
       model: 'MoE（一个 agent 多人格，按需激活）',
-      src: '白帽：Anthropic Persona Vectors · 根因：Microsoft OpenRCA · 审计：Facebook secpriv（128 benchmark）',
+      src: '阿极客观判断：Anthropic Persona Vectors · 根因：Microsoft OpenRCA · 审计：Facebook secpriv（128 benchmark）',
       cant: '只有建议权、零修改权——不写表、不派发、不否决、不裁决完成'
     },
     commanders: {
