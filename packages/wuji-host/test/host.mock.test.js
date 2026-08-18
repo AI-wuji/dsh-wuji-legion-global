@@ -23,7 +23,7 @@ console.log(JSON.stringify({
   skillNames: skills.map(x => x.name),
   skillFields: skills[0] ? Object.keys(skills[0]) : [],
 }, null, 2));
-if (projectionKeys.length !== 5) process.exit(1);
+if (projectionKeys.length !== 6) process.exit(1);
 if (skills.length !== 8) process.exit(1);
 if (!skills[0].content || !skills[0].source || !skills[0].metadata) process.exit(1);
 if (!tools.some(tool => tool.name === 'wuji_staff_plan')) process.exit(1);

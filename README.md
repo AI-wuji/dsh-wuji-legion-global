@@ -139,15 +139,19 @@
 
 ---
 
-## 🚀 快速开始 / Quick Start（规划中，尚未落地）
+## 🚀 当前状态 / Current Status
 
-```
-# 一切正在规划，P0 即将开始
-# 目标：说一句话，自动找到对应技能
+```text
+P0  宿主地基 + 阿极 preset + 三张表投影       ✅
+P1  参谋部任务规划与 subagent 派发            ✅
+P2  各域主帅选型器                            ✅
+P3  独立官员 MoE + 用户显式会审               ✅
+P4  三层记忆 + 能力重生/行为探针/版本晋升      ✅
+P5  状态摘要 + 反馈 + 可观测性                  ✅
 ```
 
-> 本项目处于**架构定型阶段**，规划文档见 `docs/无极军团规划.md`。
-> *This project is in the architecture-finalized stage.*
+> 当前为**私有开发版本**；代码、测试与规划已落地，正式公开前仍会进行真实任务验证、安装器完善和文档收口。规划见 `docs/无极军团规划.md`。
+> *Private development build: core implementation and tests are in place; real-task validation, installer hardening, and release documentation remain before public launch.*
 
 ---
 

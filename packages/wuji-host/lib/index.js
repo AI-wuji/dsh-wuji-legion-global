@@ -12,6 +12,7 @@ import staffPlanTool, { staffDispatchTool } from './staff.js';
 import commanderSelectTool from './commanders.js';
 import officerAdviseTool, { councilPlanTool } from './officers.js';
 import { memoryProjection, evolutionProjection, memoryWriteTool, evolutionProposeTool, evolutionPromoteTool } from './evolution.js';
+import { telemetryProjection, feedbackTool, createStatusTool } from './observability.js';
 
 export default {
   name: 'wuji-host',
@@ -24,6 +25,7 @@ export default {
       p.register(officerAdviceProjection);
       p.register(memoryProjection);
       p.register(evolutionProjection);
+      p.register(telemetryProjection);
     });
 
     // 注册技能库（仅当 skills 服务存在时）
@@ -40,6 +42,10 @@ export default {
       toolsCtx.tools.register(memoryWriteTool);
       toolsCtx.tools.register(evolutionProposeTool);
       toolsCtx.tools.register(evolutionPromoteTool);
+      toolsCtx.tools.register(feedbackTool);
+    });
+    ctx.inject(['tools','sessionProjections'], (statusCtx) => {
+      statusCtx.tools.register(createStatusTool(statusCtx.sessionProjections));
     });
   },
 };
@@ -59,4 +65,7 @@ export {
   memoryWriteTool,
   evolutionProposeTool,
   evolutionPromoteTool,
+  telemetryProjection,
+  feedbackTool,
+  createStatusTool,
 };
