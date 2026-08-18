@@ -1,6 +1,6 @@
 // Wuji Legion · 生命周期、可观测性与反馈（P5）
 import { z } from 'zod';
-export const telemetrySchema=z.object({task:{pending:z.number(),running:z.number(),success:z.number(),failed:z.number()},feedback:z.array(z.object({rating:z.enum(['good','bad','neutral']),note:z.string(),evidence:z.string(),time:z.number()})),version:z.number()});
+export const telemetrySchema=z.object({task:z.object({pending:z.number(),running:z.number(),success:z.number(),failed:z.number()}),feedback:z.array(z.object({rating:z.enum(['good','bad','neutral']),note:z.string(),evidence:z.string(),time:z.number()})),version:z.number()});
 export const telemetryInit=()=>({task:{pending:0,running:0,success:0,failed:0},feedback:[],version:0});
 export function applyTelemetry(s,e){
   if(e.type==='wuji/task/status'){const status=e.data.status;if(!(status in s.task))return s;return{...s,task:{...s.task,[status]:s.task[status]+1},version:s.version+1}}
