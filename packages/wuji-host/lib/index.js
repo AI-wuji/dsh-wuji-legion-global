@@ -16,6 +16,7 @@ import { memoryProjection, evolutionProjection, memoryWriteTool, evolutionPropos
 import { telemetryProjection, feedbackTool, createStatusTool } from './observability.js';
 import intelligenceSearchTool from './intelligence.js';
 import { jspaceDistill } from './jspace-distill.js';
+import { visionRouting, chooseVisionRoute, makeVisionContract } from './vision-routing.js';
 
 export default {
   name: 'wuji-host',
@@ -76,4 +77,7 @@ export {
   createStatusTool,
   intelligenceSearchTool,
   jspaceDistill,
+  visionRouting,
+  chooseVisionRoute,
+  makeVisionContract,
 };
