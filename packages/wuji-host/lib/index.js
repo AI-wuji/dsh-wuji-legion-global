@@ -50,8 +50,8 @@ export default {
       toolsCtx.tools.register(feedbackTool);
       toolsCtx.tools.register(intelligenceSearchTool);
     });
-    ctx.inject(['tools','sessionProjections'], (statusCtx) => {
-      statusCtx.tools.register(createStatusTool(statusCtx.sessionProjections));
+    ctx.inject(['tools','sessionProjections','tokenMeter'], (statusCtx) => {
+      statusCtx.tools.register(createStatusTool(statusCtx.sessionProjections,statusCtx.tokenMeter));
     });
   },
 };
