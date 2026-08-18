@@ -11,6 +11,7 @@ import skillRegistryPlugin from './skill-registry.js';
 import staffPlanTool, { staffDispatchTool } from './staff.js';
 import commanderSelectTool from './commanders.js';
 import officerAdviseTool, { councilPlanTool } from './officers.js';
+import { memoryProjection, evolutionProjection, memoryWriteTool, evolutionProposeTool, evolutionPromoteTool } from './evolution.js';
 
 export default {
   name: 'wuji-host',
@@ -21,6 +22,8 @@ export default {
       p.register(requirementProjection);
       p.register(taskProjection);
       p.register(officerAdviceProjection);
+      p.register(memoryProjection);
+      p.register(evolutionProjection);
     });
 
     // 注册技能库（仅当 skills 服务存在时）
@@ -34,6 +37,9 @@ export default {
       toolsCtx.tools.register(commanderSelectTool);
       toolsCtx.tools.register(officerAdviseTool);
       toolsCtx.tools.register(councilPlanTool);
+      toolsCtx.tools.register(memoryWriteTool);
+      toolsCtx.tools.register(evolutionProposeTool);
+      toolsCtx.tools.register(evolutionPromoteTool);
     });
   },
 };
@@ -48,4 +54,9 @@ export {
   commanderSelectTool,
   officerAdviseTool,
   councilPlanTool,
+  memoryProjection,
+  evolutionProjection,
+  memoryWriteTool,
+  evolutionProposeTool,
+  evolutionPromoteTool,
 };
