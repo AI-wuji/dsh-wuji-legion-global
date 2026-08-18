@@ -2,6 +2,7 @@ import host from '@wuji/dsh-wuji-host';
 
 const projectionKeys = [];
 const skills = [];
+const tools = [];
 const ctx = {
   inject(deps, fn) {
     const name = deps[0];
@@ -9,6 +10,8 @@ const ctx = {
       fn({ sessionProjections: { register(definition) { projectionKeys.push(definition.key); } } });
     } else if (name === 'skills') {
       fn({ skills: { register(skill) { skills.push(skill); } } });
+    } else if (name === 'tools') {
+      fn({ tools: { register(tool) { tools.push(tool); } } });
     }
   },
 };
@@ -23,3 +26,4 @@ console.log(JSON.stringify({
 if (projectionKeys.length !== 3) process.exit(1);
 if (skills.length !== 8) process.exit(1);
 if (!skills[0].content || !skills[0].source || !skills[0].metadata) process.exit(1);
+if (!tools.some(tool => tool.name === 'wuji_staff_plan')) process.exit(1);
