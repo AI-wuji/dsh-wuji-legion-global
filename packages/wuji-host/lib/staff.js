@@ -76,4 +76,45 @@ export const staffPlanTool = {
   },
 };
 
+export const staffDispatchTool = {
+  name: 'wuji_staff_dispatch',
+  description: '参谋部：将一个已规划且依赖已满足的任务节点派发给指定 subagent provider；参谋部不亲自执行。',
+  parameters: {
+    type: 'object',
+    properties: {
+      task: { type: 'object', description: '完整任务节点（来自 wuji.task 表）。' },
+      provider: { type: 'string', description: '已注册的 subagents provider 名称。' },
+      prompt: { type: 'string', description: '给执行 agent 的最小任务契约。' },
+    },
+    required: ['task', 'provider', 'prompt'],
+  },
+  output: {
+    schema: { type: 'object', properties: { taskId: { type: 'string' }, status: { type: 'string' }, childId: { type: ['string', 'null'] } }, required: ['taskId', 'status', 'childId'] },
+    render(_args, value) { return [{ type: 'text', text: JSON.stringify(value, null, 2) }]; },
+  },
+  isConcurrencySafe() { return false; },
+  async execute(args, exec) {
+    const task = args.task || {};
+    const parent = exec.agent;
+    if (!parent?.session) throw new Error('参谋部派发必须归属于当前 Agent Session');
+    if (!task.taskId || !args.provider || !args.prompt) throw new Error('派发需要 taskId、provider、prompt');
+    const subagents = exec.agent.ctx.get('subagents');
+    if (!subagents) throw new Error('subagents 服务未挂载');
+    parent.session.append('wuji/task/status', { taskId: task.taskId, status: 'running', evidence: null });
+    try {
+      const run = await subagents.start(args.provider, {
+        label: `wuji-${task.taskId}`,
+        prompt: args.prompt,
+        parent,
+        signal: exec.signal,
+      });
+      parent.session.append('wuji/task/status', { taskId: task.taskId, status: 'success', evidence: `subagent:${run.childId || run.id || task.taskId}` });
+      return { taskId: task.taskId, status: 'success', childId: run.childId || run.id || null };
+    } catch (error) {
+      parent.session.append('wuji/task/status', { taskId: task.taskId, status: 'failed', evidence: error?.message || String(error) });
+      throw error;
+    }
+  },
+};
+
 export default staffPlanTool;

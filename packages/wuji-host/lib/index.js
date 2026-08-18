@@ -8,7 +8,7 @@ import {
   officerAdviceProjection,
 } from './projection.js';
 import skillRegistryPlugin from './skill-registry.js';
-import staffPlanTool from './staff.js';
+import staffPlanTool, { staffDispatchTool } from './staff.js';
 
 export default {
   name: 'wuji-host',
@@ -28,6 +28,7 @@ export default {
     // 参谋部工具注册到全局 tools registry
     ctx.inject(['tools'], (toolsCtx) => {
       toolsCtx.tools.register(staffPlanTool);
+      toolsCtx.tools.register(staffDispatchTool);
     });
   },
 };
@@ -38,4 +39,5 @@ export {
   taskProjection,
   officerAdviceProjection,
   staffPlanTool,
+  staffDispatchTool,
 };
