@@ -9,6 +9,7 @@ import {
 } from './projection.js';
 import skillRegistryPlugin from './skill-registry.js';
 import staffPlanTool, { staffDispatchTool } from './staff.js';
+import { createWujiStaffService } from './staff-service.js';
 import commanderSelectTool from './commanders.js';
 import officerAdviseTool, { councilPlanTool } from './officers.js';
 import { memoryProjection, evolutionProjection, memoryWriteTool, evolutionProposeTool, evolutionPromoteTool } from './evolution.js';
@@ -17,6 +18,7 @@ import { telemetryProjection, feedbackTool, createStatusTool } from './observabi
 export default {
   name: 'wuji-host',
   apply(ctx) {
+    ctx.provide('wujiStaff', createWujiStaffService());
     // 注册三张表投影（仅当 sessionProjections 服务存在时；headless 无 registry 时不受影响）
     ctx.inject(['sessionProjections'], (projectionCtx) => {
       const p = projectionCtx.sessionProjections;
@@ -57,6 +59,7 @@ export {
   officerAdviceProjection,
   staffPlanTool,
   staffDispatchTool,
+  createWujiStaffService,
   commanderSelectTool,
   officerAdviseTool,
   councilPlanTool,
