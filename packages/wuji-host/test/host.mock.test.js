@@ -29,3 +29,5 @@ if (!skills[0].content || !skills[0].source || !skills[0].metadata) process.exit
 if (!tools.some(tool => tool.name === 'wuji_staff_plan')) process.exit(1);
 if (!tools.some(tool => tool.name === 'wuji_staff_dispatch')) process.exit(1);
 if (!tools.some(tool => tool.name === 'wuji_commander_select')) process.exit(1);
+if (!tools.some(tool => tool.name === 'wuji_officer_advise')) process.exit(1);
+if (!tools.some(tool => tool.name === 'wuji_council_plan')) process.exit(1);

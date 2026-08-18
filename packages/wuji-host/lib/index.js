@@ -10,6 +10,7 @@ import {
 import skillRegistryPlugin from './skill-registry.js';
 import staffPlanTool, { staffDispatchTool } from './staff.js';
 import commanderSelectTool from './commanders.js';
+import officerAdviseTool, { councilPlanTool } from './officers.js';
 
 export default {
   name: 'wuji-host',
@@ -31,6 +32,8 @@ export default {
       toolsCtx.tools.register(staffPlanTool);
       toolsCtx.tools.register(staffDispatchTool);
       toolsCtx.tools.register(commanderSelectTool);
+      toolsCtx.tools.register(officerAdviseTool);
+      toolsCtx.tools.register(councilPlanTool);
     });
   },
 };
@@ -43,4 +46,6 @@ export {
   staffPlanTool,
   staffDispatchTool,
   commanderSelectTool,
+  officerAdviseTool,
+  councilPlanTool,
 };
