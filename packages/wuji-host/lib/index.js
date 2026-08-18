@@ -14,6 +14,7 @@ import commanderSelectTool from './commanders.js';
 import officerAdviseTool, { councilPlanTool } from './officers.js';
 import { memoryProjection, evolutionProjection, memoryWriteTool, evolutionProposeTool, evolutionPromoteTool } from './evolution.js';
 import { telemetryProjection, feedbackTool, createStatusTool } from './observability.js';
+import intelligenceSearchTool from './intelligence.js';
 
 export default {
   name: 'wuji-host',
@@ -45,6 +46,7 @@ export default {
       toolsCtx.tools.register(evolutionProposeTool);
       toolsCtx.tools.register(evolutionPromoteTool);
       toolsCtx.tools.register(feedbackTool);
+      toolsCtx.tools.register(intelligenceSearchTool);
     });
     ctx.inject(['tools','sessionProjections'], (statusCtx) => {
       statusCtx.tools.register(createStatusTool(statusCtx.sessionProjections));
@@ -71,4 +73,5 @@ export {
   telemetryProjection,
   feedbackTool,
   createStatusTool,
+  intelligenceSearchTool,
 };
