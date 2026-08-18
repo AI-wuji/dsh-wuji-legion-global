@@ -13,6 +13,9 @@
     },
     "./skill-registry": {
       "default": "./lib/skill-registry.js"
+    },
+    "./jspace-distill": {
+      "default": "./lib/jspace-distill.js"
     }
   },
   "dependencies": {

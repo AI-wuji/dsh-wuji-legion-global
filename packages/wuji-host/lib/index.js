@@ -15,6 +15,7 @@ import officerAdviseTool, { councilPlanTool } from './officers.js';
 import { memoryProjection, evolutionProjection, memoryWriteTool, evolutionProposeTool, evolutionPromoteTool } from './evolution.js';
 import { telemetryProjection, feedbackTool, createStatusTool } from './observability.js';
 import intelligenceSearchTool from './intelligence.js';
+import { jspaceDistill } from './jspace-distill.js';
 
 export default {
   name: 'wuji-host',
@@ -74,4 +75,5 @@ export {
   feedbackTool,
   createStatusTool,
   intelligenceSearchTool,
+  jspaceDistill,
 };

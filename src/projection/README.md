@@ -67,7 +67,7 @@ TaskTable = {
 OfficerAdviceTable = {
   advices: Array<{
     adviceId: string,      // 建议 ID
-    officer: string,       // 职权（白帽/质检/审计/合规/根因/性能）
+    officer: string,       // 职权（质检/审计/合规/根因/性能；阿极客观判断不属于独立官员）
     content: string,       // 建议内容
     evidence: string,      // 证据/因果线
     userDecision: 'adopted' | 'rejected' | 'deferred' | 'pending',  // 用户决定
