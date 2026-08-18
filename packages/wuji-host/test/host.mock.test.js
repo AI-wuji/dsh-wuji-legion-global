@@ -4,6 +4,7 @@ const projectionKeys = [];
 const skills = [];
 const tools = [];
 const ctx = {
+  provide() {},
   inject(deps, fn) {
     const name = deps[0];
     if (name === 'sessionProjections') {
