@@ -3,7 +3,7 @@ const OFFICERS=new Set(['white-hat','qa','audit','compliance','root-cause','perf
 export const officerAdviseTool={
   name:'wuji_officer_advise',
   description:'独立官员 MoE：一次激活一个官员职权，只提交建议与证据；零修改、零派发、零否决、零完成权。',
-  parameters:{type:'object',properties:{officer:{type:'string'},adviceId:{type:'string'},content:{type:'string'},evidence:{type:'string'},affectedRequirement:{type:['string','null']}},required:['officer','adviceId','content','evidence']},
+  parameters:{type:'object',properties:{officer:{type:'string'},adviceId:{type:'string'},content:{type:'string'},evidence:{type:'string'},affectedRequirement:{oneOf:[{type:'string'},{type:'null'}]}},required:['officer','adviceId','content','evidence']},
   output:{schema:{type:'object',properties:{adviceId:{type:'string'},officer:{type:'string'},status:{type:'string'}},required:['adviceId','officer','status']},render(_a,v){return[{type:'text',text:JSON.stringify(v,null,2)}]}},
   isConcurrencySafe(){return true},
   async execute(args,exec){
