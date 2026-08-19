@@ -171,8 +171,8 @@ P4  三层记忆 + 能力重生/行为探针/版本晋升      ✅
 P5  状态摘要 + 反馈 + 可观测性                  ✅
 ```
 
-> 当前为**私有开发版本**；代码、测试与规划已落地，正式公开前仍会进行真实任务验证、安装器完善和文档收口。规划见 `docs/无极军团规划.md`。
-> *Private development build: core implementation and tests are in place; real-task validation, installer hardening, and release documentation remain before public launch.*
+> 当前为**公开开发版本**；全局架构、研究、能力目录与基础集成持续演进。要直接启用独占运行模式，请进入 [`dsh-wuji-legion-mode`](https://github.com/AI-wuji/dsh-wuji-legion-mode)，按安装文档选择 `wuji` preset。
+> *Public development build: the global architecture, research, capability registry, and mode implementation continue to evolve. For the selectable isolated runtime, visit [`dsh-wuji-legion-mode`](https://github.com/AI-wuji/dsh-wuji-legion-mode).*
 
 ---
 
