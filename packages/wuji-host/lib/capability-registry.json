@@ -218,16 +218,18 @@
                                               "browser",
                                               "web automation"
                                           ],
-                             "entrypoint":  "DSH native web + terminal/subprocess; external browser plugin only after audit",
+                             "entrypoint":  "official Microsoft Playwright MCP via DSH MCP client",
                              "lifecycle":  "callable",
-                             "verify":  "native DSH services inspected; external candidates low-star/unverified",
+                             "verify":  "Microsoft Playwright MCP 36K+ stars, Apache-2.0; desktop patch verified",
                              "fallback":  "report unavailable and request explicit browser provider",
-                             "source":  "DSH-native",
+                             "source":  "microsoft/playwright-mcp",
                              "compatibility":  [
-                                                   "DeepSeek Harness desktop"
+                                                   "DeepSeek Harness desktop",
+                                                   "Microsoft Edge",
+                                                   "Node/npx"
                                                ],
-                             "rollback":  "disable registry entry",
-                             "risk":  "high; navigation/click/evaluate can cause external side effects"
+                             "rollback":  "remove playwright-browser row from desktop patch",
+                             "risk":  "high; navigation/click/fill/download can cause external side effects"
                          },
                          {
                              "id":  "comfyui-control",
