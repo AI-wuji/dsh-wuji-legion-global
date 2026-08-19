@@ -1,4 +1,4 @@
-<h1 align="center">⚔️ 无极军团 · dsh-wuji-legion</h1>
+<h1 align="center">⚔️ 无极军团全局版 · dsh-wuji-legion-global</h1>
 
 <p align="center">
   <strong>我们把一支「会自己进化的智能体军团」做成了系统，跑在 DeepSeek Harness 上。</strong><br>
@@ -15,6 +15,10 @@
 </p>
 
 ---
+
+## 项目定位 / Project Scope
+
+本仓库是 **无极军团全局版**：保存无极军团的全局研究、架构、能力目录与基础集成。可选的独占“无极军团模式”已拆分到 [`dsh-wuji-legion-mode`](https://github.com/AI-wuji/dsh-wuji-legion-mode)。只有选择模式版时，军团 preset、铁律、工具和治理运行时才应启动；其他 DSH 模式不加载这些内容。
 
 ## 🎯 一句话 / One-Liner
 
