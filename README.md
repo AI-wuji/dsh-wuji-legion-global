@@ -16,27 +16,6 @@
 
 ---
 
-## 项目定位 / Project Scope
-
-本仓库是 **无极军团全局版**：保存无极军团的全局研究、架构、能力目录与基础集成。可选的独占“无极军团模式”已拆分到 [`dsh-wuji-legion-mode`](https://github.com/AI-wuji/dsh-wuji-legion-mode)。只有选择模式版时，军团 preset、铁律、工具和治理运行时才应启动；其他 DSH 模式不加载这些内容。
-
-## 两个项目怎么选 / Choose Your Project
-
-本组织维护两个互补但运行边界不同的项目：
-
-| 项目 | 主要职责 | 适合谁 | 是否直接成为 DSH 模式 |
-|---|---|---|---|
-| **全局版** `dsh-wuji-legion-global` | 全局架构、研究资料、能力目录、基础集成与长期演进 | 想研究、扩展或维护无极军团整体系统的人 | 否。它不是可选聊天模式 |
-| **模式版** [`dsh-wuji-legion-mode`](https://github.com/AI-wuji/dsh-wuji-legion-mode) | 可选择的独占运行模式：preset、铁律、军团工具、投影和治理链 | 想在 DSH 中启用完整无极军团体验的用户 | 是。只有选择该模式才启动军团设定 |
-
-### 你应该进入哪个仓库？
-
-- 想了解整体设计、研究依据、全局能力或参与底层建设：进入当前的**全局版**。
-- 想安装并使用“无极军团模式”：进入 [`dsh-wuji-legion-mode`](https://github.com/AI-wuji/dsh-wuji-legion-mode)。
-- 只想使用 DSH 的其他模式：不需要安装或加载模式版；它们不应受到无极军团规则影响。
-
-> 两个项目不是两个不同品牌，而是同一体系的两层交付物：全局版负责“整体系统如何存在”，模式版负责“用户选择后如何运行”。
-
 ## 🎯 一句话 / One-Liner
 
 > **让不懂 Skill、插件、MCP 是什么的小白，用人话提出要求，无极军团自动调齐整支智能体军团把事办成——而且越用越强。**
@@ -48,6 +27,12 @@
 *One more layer of institutional hierarchy than CrewAI · One more capability-evolution engine than AutoGen · One more set of power boundaries than LangGraph*
 
 ---
+
+## 项目定位 / Project Scope
+
+本仓库是无极军团的**全局版**：保存整体理念、系统架构、研究依据、能力目录、基础集成和长期演进记录。它描述的是“无极军团作为一个完整系统，为什么这样设计、由哪些部分组成、如何持续建设”。
+
+如果你想在 DeepSeek Harness 中直接选择并运行完整的无极军团体验，请前往独立的 [`dsh-wuji-legion-mode`](https://github.com/AI-wuji/dsh-wuji-legion-mode)。那个仓库是可选的独占模式实现；只有进入该模式，阿极、铁律、参谋部、任务投影和军团治理运行时才会启动。
 
 ## ⚔️ 它是什么 / What It Is
 
@@ -131,6 +116,15 @@
 > *Every role stands on verified capabilities — official releases, high-star GitHub projects, or top-conference papers. None of it is "we just think it's good".*
 
 ---
+
+## 选择模式版 / Try Wuji Legion Mode
+
+无极军团除了全局系统设计，还提供一个面向最终使用者的独立变体：[`dsh-wuji-legion-mode`](https://github.com/AI-wuji/dsh-wuji-legion-mode)。它把军团定义为 DSH 的一个可选择、独占的运行模式，而不是覆盖默认模式的全局插件。
+
+选择“无极军团模式”后，系统才加载完整的阿极交互契约、铁律、任务规划、调度、投影、记忆和治理工具；切换到其他 DSH 模式时，这些设定不会加载，其他模式仍可按自己的插件和工作方式运行。
+
+- 想理解无极军团的整体思想、底层结构和能力演进：留在当前全局版。
+- 想安装并实际使用完整军团体验：前往 [`dsh-wuji-legion-mode`](https://github.com/AI-wuji/dsh-wuji-legion-mode)。
 
 ## 🧬 为什么不是又一个多智能体框架 / Why Not Another Multi-Agent Framework
 
