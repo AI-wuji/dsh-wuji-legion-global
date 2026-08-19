@@ -1,4 +1,4 @@
-﻿{
+{
     "version":  "0.2.0",
     "policy":  "能力注册表（Capability Registry）。这是无极军团的技能清单数据源——每条登记一个能力，含触发词、入口、归属主帅、生命周期、验证探针。参谋部的 capability-mount 在此清单上做确定性路由。",
     "capabilities":  [
@@ -194,17 +194,17 @@
                                               "image",
                                               "screenshot"
                                           ],
-                             "entrypoint":  "plugin:@liustack/modlens -\u003e modlens_read_image",
+                             "entrypoint":  "dsh-vision-router@1.5.3 → built-in vision tools / Auto Vision route",
                              "lifecycle":  "behavior-verified",
-                             "verify":  "ModLens 3.20.0 installed; source audit and security docs reviewed",
+                             "verify":  "dsh-vision-router v1.5.3; MIT; 368 tests advertised; source and security docs reviewed",
                              "fallback":  "current model native image input",
-                             "source":  "liustack/modlens",
+                             "source":  "ysr666/dsh-vision-router",
                              "compatibility":  [
                                                    "DeepSeek Harness desktop",
                                                    "text-only model fallback"
                                                ],
                              "rollback":  "remove desktop profile plugin entry and restore previous package",
-                             "risk":  "image-content-untrusted; external engine depends on configured provider"
+                             "risk":  "image-content-untrusted; built-in remote vision chain has rate/privacy limits"
                          },
                          {
                              "id":  "browser-control",
