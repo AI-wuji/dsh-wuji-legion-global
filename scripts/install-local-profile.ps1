@@ -16,6 +16,28 @@ if (Test-Path (Join-Path $target 'test')) { Remove-Item -LiteralPath (Join-Path 
 $patch = Join-Path $DshHome "profiles\$Profile\cordis.patch.yml"
 if (-not (Test-Path $patch)) { throw "profile patch not found: $patch" }
 $text = Get-Content $patch -Raw -Encoding UTF8
-if ($text -notmatch "@wuji/dsh-wuji-host") { throw "profile patch does not load @wuji/dsh-wuji-host" }
+# Desktop plugin installers can rewrite this patch. Restore the complete user-owned rows if any managed row disappeared.
+if ($text -notmatch "@wuji/dsh-wuji-host" -or $text -notmatch "default:\s*wuji" -or $text -notmatch "@deepseek-ai/dsh-mcp-client") {
+@"
+# User-owned Desktop profile patch.
+- id: agent-presets
+  config:
+    default: wuji
+- insert:
+    - id: wuji-host
+      name: '@wuji/dsh-wuji-host'
+    - id: playwright-browser
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        transport: stdio
+        serverName: playwright
+        command: npx
+        args: ['-y', '@playwright/mcp@latest', '--browser', 'msedge']
+        failOnStartupError: false
+        reconnect:
+          enabled: true
+          maxAttempts: 3
+"@ | Set-Content $patch -Encoding UTF8
+}
 Write-Host "Installed @wuji/dsh-wuji-host to $target"
 Write-Host "Restart DSH to load the new host package."
